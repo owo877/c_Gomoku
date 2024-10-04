@@ -2,6 +2,31 @@
 #include <stdlib.h>
 #include <string.h>
 // #include "function.h"
+
+// 主程式
+void main(int argc, char *argv[]){
+    // 初始化
+    char chessBoard[19][19];
+    int i, j, n = 0;
+    struct keyValue *anyPiecesL; 
+    // argv[1] = "Black" or "White"
+    // 判斷當前棋色（黒子 1）（白子 0）
+    int target = strcmp(argv[1], "Black") == 0 ? 1 : 0; // strcmp ture is 0
+    // 接收棋盤 
+    for(i=0; i<19; i++){
+        for(j=0; j<19; j++){
+            scanf(" %c", &chessBoard[i][j]);
+            if(strcmp(chessBoard[i][j],".") != 0){
+                anyPiecesL[n].x = i;
+                anyPiecesL[n].y = j;
+                anyPiecesL[n].color = chessBoard[i][j] - '0';
+                n++;
+            }
+        }
+    }
+    printf("x: %d y: %d | %d \n", anyPiecesL[0].x, anyPiecesL[0].y, anyPiecesL[0].color);
+    show(chessBoard);
+}
 // 儲存有棋子的list {座標, 顏色（黑 1, 白 0）}
 struct keyValue{
     int x, y, color;
@@ -51,28 +76,4 @@ int linkCheck(char chessBoard[19][19], int* target){
         n++;
     }
     return n;
-}
-// 主程式
-void main(int argc, char *argv[]){
-    // 初始化
-    char chessBoard[19][19];
-    int i, j, n = 0;
-    struct keyValue *anyPiecesL; 
-    // argv[1] = "Black" or "White"
-    // 判斷當前棋色（黒子 1）（白子 0）
-    int target = strcmp(argv[1], "Black") == 0 ? 1 : 0; // strcmp ture is 0
-    // 接收棋盤 
-    for(i=0; i<19; i++){
-        for(j=0; j<19; j++){
-            scanf(" %c", &chessBoard[i][j]);
-            if(strcmp(chessBoard[i][j],".") != 0){
-                anyPiecesL[n].x = i;
-                anyPiecesL[n].y = j;
-                anyPiecesL[n].color = chessBoard[i][j] - '0';
-                n++;
-            }
-        }
-    }
-    printf("x: %d y: %d | %d \n", anyPiecesL[0].x, anyPiecesL[0].y, anyPiecesL[0].color);
-    show(chessBoard);
 }
