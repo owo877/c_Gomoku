@@ -3,7 +3,7 @@
 ## git 指令
 >新增內容
 > ```git
-> git add .
+> git add 檔案
 > ```
 >新增註解
 > ```git
