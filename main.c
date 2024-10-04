@@ -37,3 +37,12 @@ char show(char chessBoard[19][19]){
         printf("\n");
     }
 }
+
+char linkCheck(char chessBoard[19][19], int target[2]){
+    // target[2] = [color, v]
+    //      1  2  3
+    // v:   4     5
+    //      6  7  8
+    // 判斷連線數
+    
+}
