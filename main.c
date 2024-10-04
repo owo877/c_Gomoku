@@ -27,18 +27,20 @@ void main(int argc, char *argv[]){
     // 列印子的位置
     printf("\n");
     for(i=0; i<n; i++){
-        printf("x: %d y: %d | %d \n", anyPiecesL[i][0], anyPiecesL[i][1], anyPiecesL[i][2]);
+        int l[3][2] = {anyPiecesL[i][2],0,{anyPiecesL[i][0], anyPiecesL[i][1]}};
+        printf("%d|%d",i,linkCheck(chessBoard,1,l));
+        // printf("x: %d y: %d | %d \n", anyPiecesL[i][0], anyPiecesL[i][1], anyPiecesL[i][2]);
     }
     // 列印棋盤
-    printf("\n");
-    printf("   A B C D E F G H I J K L M N O P Q R S\n");
-    for (i=0; i<19; i++){
-        printf("%2d ", i + 1);
-        for(j=0; j<19; j++){
-            printf("%c ", chessBoard[i][j]);
-        }
-        printf("\n");
-    }
+    // printf("\n");
+    // printf("   A B C D E F G H I J K L M N O P Q R S\n");
+    // for (i=0; i<19; i++){
+    //     printf("%2d ", i + 1);
+    //     for(j=0; j<19; j++){
+    //         printf("%c ", chessBoard[i][j]);
+    //     }
+    //     printf("\n");
+    // }
     // show(chessBoard);
 }
 // 儲存有棋子的list {座標, 顏色（黑 1, 白 0）} error idk
@@ -58,7 +60,7 @@ void main(int argc, char *argv[]){
 //     }
 // }
 // 判斷連線數
-int linkCheck(char chessBoard[19][19], int* target){
+int linkCheck(char *chessBoard[19][19], int *target[][2]){
     // target[2] = {color(0,1), v(0~7), now[2](x,y)}
     //      0  1  2
     // v:   3     4
@@ -72,7 +74,7 @@ int linkCheck(char chessBoard[19][19], int* target){
         {-1,  1},
         { 0,  1},
         { 1,  1}};
-    int nowV[2] = {vL[target[1]][0], vL[target[1]][1]};
+    int nowV[2] = {vL[target[1][0]][0], vL[target[1][0]][1]};
     int x,y = target[2];
     int color = target[0];
     int flag = 0;
@@ -81,7 +83,7 @@ int linkCheck(char chessBoard[19][19], int* target){
         if(flag){
             break;
         }
-        if(chessBoard[x+nowV[0]][y+nowV[1]] != color){
+        if((int)(chessBoard[x+nowV[0]][y+nowV[1]] - '0') != color){
             flag = 1;
             return n;
         }
