@@ -1,7 +1,7 @@
 # 屏大 資工系 五子棋 for C
 嘗試製作AI五子棋  
   
-![image](https://github.com/owo877/c_Gomoku/blob/main/cbb113111.webp)
+![image](https://github.com/owo877/c_Gomoku/blob/main/cbb113111.webp)  
 ## 棋盤樣式
 ```
 . . . . . . . . . . . . . . . . . . .  
@@ -34,7 +34,7 @@
 ## TODO
 - [x] 顯示棋盤
 - [x] function檔案建製
-- [ ] 判斷連線數
+- [x] 判斷連線數
 - [ ] 是否防守
 - [ ] 進攻位置
 - [ ] 權重

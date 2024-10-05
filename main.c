@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
     // argv[1] = "Black" or "White"
     // 判斷當前棋色（黒子 1）（白子 0）
     int target = strcmp(argv[1], "Black") == 0 ? 1 : 0; // strcmp ture is 0
-    printf("target : %d\n",target);
+    printf("target : %d\n", target);
     // 接收棋盤 
     for(i=0; i<19; i++){
         for(j=0; j<19; j++){
@@ -25,12 +25,15 @@ int main(int argc, char *argv[]){
         }
     }
 
-    printf("%d\n",n);
-    // 列印子的位置
+    printf("%d\n", n);
+    // 列印棋子的位置
     for(i=0; i<n; i++){
-        pieces target = {anyPiecesL[i].color,0,{anyPiecesL[i].x,anyPiecesL[i].y}};
+        int v = 0;
+        // target = {color(0,1), v(0~7), now[2](x,y)}
+        pieces target = {anyPiecesL[i].color, v, {anyPiecesL[i].x,anyPiecesL[i].y}};
+        // 確認
         printf("x: %d y: %d | %d \n", anyPiecesL[i].x, anyPiecesL[i].y, anyPiecesL[i].color);
-        printf("%d|%d\n",i,linkCheck(chessBoard,target));
+        printf("子顏色 : %d | 連幾顆 : %d | 方向 : %d\n", i, linkCheck(chessBoard,target), v);
     }
     // 列印棋盤
     show(chessBoard);
