@@ -1,6 +1,6 @@
 # 屏大 資工系 五子棋 for C
 嘗試製作AI五子棋  
-  
+![image](https://github.com/owo877/c_Gomoku/blob/main/cbb113111.webp)
 ## 棋盤樣式
 ```
 . . . . . . . . . . . . . . . . . . .  
