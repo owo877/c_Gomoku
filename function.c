@@ -1,7 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "function.h"
 
+const position vL[8] = {
+        {-1, -1},
+        { 0, -1},
+        { 1, -1},
+        {-1,  0},
+        { 1,  0},
+        {-1,  1},
+        { 0,  1},
+        { 1,  1}
+};
 // 顯示當前棋盤
 void show(char chessBoard[19][19]){
     int i, j;
@@ -21,15 +32,6 @@ int linkCheck(char chessBoard[19][19], pieces target){
     //      0  1  2
     // v:   3  A  4
     //      5  6  7
-    position vL[8] = {
-        {-1, -1},
-        { 0, -1},
-        { 1, -1},
-        {-1,  0},
-        { 1,  0},
-        {-1,  1},
-        { 0,  1},
-        { 1,  1}};
     position v = vL[target.v]; // 取得目標向量
     // 棋子的座標
     position pos = target.pos;
@@ -37,7 +39,7 @@ int linkCheck(char chessBoard[19][19], pieces target){
     int n = 0;
     
     for(int i=0; i<5; i++){
-        // 預防out of range
+        // 預防 out of range
         if(pos.x < 0 || pos.y < 0 || pos.x > 18 || pos.y > 18){
             return n;
         }
@@ -51,6 +53,19 @@ int linkCheck(char chessBoard[19][19], pieces target){
     return n;
 }
 
-int checkVector(char chessBoard[19][19], position pos){
-    return 0;
+void checkVector(char chessBoard[19][19], position pos, int *check){
+    int i,n = 0;
+    char color = chessBoard[pos.x][pos.y];
+    for(i=0; i<8; i++){
+        position v = vL[i];
+        int x = pos.x + v.x, y = pos.y + v.y;
+        // 預防 out of range
+        if(x < 0 || y < 0 || x > 18 || y > 18){
+            continue;
+        }
+        else if(chessBoard[x][y] == color){
+            check[n] = i;
+            n++;
+        }
+    }
 }

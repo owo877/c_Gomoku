@@ -1,7 +1,6 @@
 // 宣告檔案
 
 // typedef enum{};
-
 // 儲存座標
 typedef struct {
     int x;
@@ -26,4 +25,4 @@ void show(char chessBorad[19][19]);
 // 判斷連線狀態
 int linkCheck(char chessBoard[19][19], pieces target);
 // 確認方向
-int checkVector(char chessBoard[19][19], position pos);
+void checkVector(char chessBoard[19][19], position pos, int *check);
