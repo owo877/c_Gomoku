@@ -18,22 +18,27 @@ int main(int argc, char *argv[]){
         for(j=0; j<19; j++){
             scanf(" %c", &chessBoard[i][j]);
             if(chessBoard[i][j] != '.'){
-                keyValue l = {i, j, chessBoard[i][j]-'0'};
+                keyValue l = {{i, j}, chessBoard[i][j]-'0'};
                 anyPiecesL[n] = l;
                 n++;
             }
         }
     }
 
-    printf("%d\n", n);
+    // 確認數量
+    // anyPiecesL = (keyValue *)realloc(anyPiecesL, n * sizeof(keyValue)); //想減少不必要空間但不會
+    printf("\n%d\n", n);
     // 列印棋子的位置
     for(i=0; i<n; i++){
         int v = 0;
+        position pos = anyPiecesL[i].pos;
+        // 確認周圍旗子
+        v = checkVector(chessBoard, pos);
         // target = {color(0,1), v(0~7), now[2](x,y)}
-        pieces target = {anyPiecesL[i].color, v, {anyPiecesL[i].x,anyPiecesL[i].y}};
+        pieces target = {anyPiecesL[i].color, v, pos};
         // 確認
-        printf("x: %d y: %d | %d \n", anyPiecesL[i].x, anyPiecesL[i].y, anyPiecesL[i].color);
-        printf("子顏色 : %d | 連幾顆 : %d | 方向 : %d\n", i, linkCheck(chessBoard,target), v);
+        printf("x : %d y : %d | color :  %d \n", pos.x, pos.y, anyPiecesL[i].color);
+        printf("連幾顆 : %d | 方向 : %d\n", linkCheck(chessBoard, target), v);
     }
     // 列印棋盤
     show(chessBoard);

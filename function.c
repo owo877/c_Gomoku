@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include "function.h"
 
-// 顯示當前棋盤 error idk
+// 顯示當前棋盤
 void show(char chessBoard[19][19]){
     int i, j;
-    printf("   A B C D E F G H I J K L M N O P Q R S\n");
+    printf("\n   A B C D E F G H I J K L M N O P Q R S\n");
     for (i=0; i<19; i++){
         printf("%2d ", i+1);
         for(j=0; j<19; j++){
@@ -15,13 +15,13 @@ void show(char chessBoard[19][19]){
     }
 }
 
-// 判斷連線數 return {3 or 4, jump or normal}
+// 判斷連線數 return {3 or 4, jump or normal} 還沒做
 int linkCheck(char chessBoard[19][19], pieces target){
-    // target = {color(0,1), v(0~7), now[2](x,y)}
+    // target = {color(0,1), v(0~7), pos(x,y)}
     //      0  1  2
-    // v:   3     4
+    // v:   3  A  4
     //      5  6  7
-    int vL[8][2] = {
+    position vL[8] = {
         {-1, -1},
         { 0, -1},
         { 1, -1},
@@ -30,24 +30,27 @@ int linkCheck(char chessBoard[19][19], pieces target){
         {-1,  1},
         { 0,  1},
         { 1,  1}};
-    int v[2] = {vL[target.v][0], vL[target.v][1]}; // 取得目標向量
+    position v = vL[target.v]; // 取得目標向量
     // 棋子的座標
-    int x = target.now[1];
-    int y = target.now[0];
+    position pos = target.pos;
     int color = target.color;
     int n = 0;
     
-    for(int i = 0 ; i<5; i++){
+    for(int i=0; i<5; i++){
         // 預防out of range
-        if(x < 0 || y < 0 || x > 18 || y > 18){
+        if(pos.x < 0 || pos.y < 0 || pos.x > 18 || pos.y > 18){
             return n;
         }
-        if((int)(chessBoard[x+v[0]][y+v[1]] - '0') != color){
+        if((int)(chessBoard[pos.x+v.x][pos.y+v.y] - '0') != color){
             return n;
         }
-        x += v[0];
-        y += v[1];
+        pos.x += v.x;
+        pos.y += v.y;
         n++;
     }
     return n;
+}
+
+int checkVector(char chessBoard[19][19], position pos){
+    return 0;
 }

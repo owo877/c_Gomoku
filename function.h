@@ -2,21 +2,28 @@
 
 // typedef enum{};
 
-// 儲存有棋子的list {座標, 顏色（黑 1, 白 0）} error idk
+// 儲存座標
 typedef struct {
     int x;
     int y;
+} position;
+
+// 儲存有棋子的list {座標, 顏色（黑 1, 白 0）}
+typedef struct {
+    position pos;
     int color;
-}keyValue;
+} keyValue;
 
 // 判斷參數
 typedef struct {
     int color;
     int v;
-    int now[2];
+    position pos;
 } pieces;
 
 // 顯示棋盤
 void show(char chessBorad[19][19]);
-//判斷連線狀態
-int linkCheck(char chessBoard[19][19],pieces target);
+// 判斷連線狀態
+int linkCheck(char chessBoard[19][19], pieces target);
+// 確認方向
+int checkVector(char chessBoard[19][19], position pos);
