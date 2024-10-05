@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
             scanf(" %c", &chessBoard[i][j]);
             if(chessBoard[i][j] != '.'){
                 keyValue l = {i, j, chessBoard[i][j]-'0'};
-                anyPiecesL[i] = l;
+                anyPiecesL[n] = l;
                 n++;
             }
         }
@@ -28,9 +28,9 @@ int main(int argc, char *argv[]){
     printf("%d\n",n);
     // 列印子的位置
     for(i=0; i<n; i++){
-        // pieces target = {anyPiecesL[i].color,0,{anyPiecesL[i].x,anyPiecesL[i].y}};
+        pieces target = {anyPiecesL[i].color,0,{anyPiecesL[i].x,anyPiecesL[i].y}};
         printf("x: %d y: %d | %d \n", anyPiecesL[i].x, anyPiecesL[i].y, anyPiecesL[i].color);
-        // printf("%d|%d",i,linkCheck(chessBoard,target));
+        printf("%d|%d\n",i,linkCheck(chessBoard,target));
     }
     // 列印棋盤
     show(chessBoard);
