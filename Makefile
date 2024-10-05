@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall -g
 
 # 目標文件
-TARGET = run
+TARGET = cbb113111
 
 # 所有的源文件
 SRCS = main.c function.c
@@ -29,4 +29,5 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 # 清理編譯生成的文件
 clean:
-	del /f $(OBJ_DIR)/*.o $(TARGET)
+	del $(TARGET).exe
+	clean.bat
