@@ -26,8 +26,9 @@ void show(char chessBoard[19][19]){
     }
 }
 
-// 判斷連線數 return {3 or 4, jump or normal} 還沒做
-int linkCheck(char chessBoard[19][19], pieces target){
+// 判斷連線數 answer = {3 or 4, jump(1) or normal(0) or None(-1)} 還沒做
+// 活3跳(2 . 1) 活4跳(3 . 1 or 2 . 2)
+int linkCheck(char chessBoard[19][19], pieces target, int *answer[2]){
     // target = {color(0,1), v(0~7), pos(x,y)}
     //      0  1  2
     // v:   3  A  4
@@ -36,21 +37,39 @@ int linkCheck(char chessBoard[19][19], pieces target){
     // 棋子的座標
     position pos = target.pos;
     int color = target.color;
-    int n = 0;
+    int link = 0;
+    int n = -1; // 計數是否爲 活x跳
+    int i;
     
-    for(int i=0; i<5; i++){
+    for(i=0; i<5; i++){
         // 預防 out of range
         if(pos.x < 0 || pos.y < 0 || pos.x > 18 || pos.y > 18){
-            return n;
+            break;
         }
-        if((int)(chessBoard[pos.x+v.x][pos.y+v.y] - '0') != color){
-            return n;
+
+        char nowPiece = chessBoard[pos.x+v.x][pos.y+v.y];
+        // 判斷是否活跳
+        if(nowPiece == "." && n == -1){
+            n = 1;
         }
-        pos.x += v.x;
-        pos.y += v.y;
-        n++;
+        // 連續
+        else if(nowPiece == color){
+            pos.x += v.x;
+            pos.y += v.y;
+            link++;
+        }
+        // 不同顏色 or 連續爲空
+        else{
+            // 不連續
+            if(i == 1){
+                n = 0;
+            }
+            break;
+        }
     }
-    return n;
+    // 如果有跳 跳前後連幾？判斷種類？
+    answer[0] = link;
+    answer[1] = n;
 }
 
 void checkVector(char chessBoard[19][19], position pos, int *check){

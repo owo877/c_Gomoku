@@ -31,6 +31,8 @@ int main(int argc, char *argv[]){
     // 列印棋子的位置
     for(i=0; i<n; i++){
         position pos = anyPiecesL[i].pos;
+        // 確認
+        printf("x : %d y : %d | color :  %d \n", pos.x, pos.y, anyPiecesL[i].color);
         // 確認周圍旗子向量 
         int v[8] = {-1,-1,-1,-1,-1,-1,-1,-1}; // 放棄
         checkVector(chessBoard, pos, v);
@@ -38,14 +40,14 @@ int main(int argc, char *argv[]){
             if(v[j] == -1){
                 break;
             }
-            printf("%d ",v[j]); // 向量
+            // printf("%d ",v[j]); // 向量
+            // target = {color(0,1), v(0~7), now[2](x,y)}
+            pieces target = {anyPiecesL[i].color, v[j], pos};
+            int type[2]; // 存結果
+            linkCheck(chessBoard, target, type);
+            printf("連幾顆 : %d | 方向 : %d\n", type[0], v[j]);
         }
         printf("\n");
-        // target = {color(0,1), v(0~7), now[2](x,y)}
-        pieces target = {anyPiecesL[i].color, 0, pos};
-        // 確認
-        printf("x : %d y : %d | color :  %d \n", pos.x, pos.y, anyPiecesL[i].color);
-        printf("連幾顆 : %d | 方向 : %d\n", linkCheck(chessBoard, target), 0);
     }
     // 列印棋盤
     show(chessBoard);
