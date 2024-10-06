@@ -28,7 +28,7 @@ void show(char chessBoard[19][19]){
 
 // 判斷連線數 answer = {3 or 4, jump(1) or normal(0) or None(-1)} 還沒做
 // 活3跳(2 . 1) 活4跳(3 . 1 or 2 . 2)
-int linkCheck(char chessBoard[19][19], pieces target, int *answer[2]){
+void linkCheck(char chessBoard[19][19], pieces target, int *answer){
     // target = {color(0,1), v(0~7), pos(x,y)}
     //      0  1  2
     // v:   3  A  4
@@ -49,7 +49,7 @@ int linkCheck(char chessBoard[19][19], pieces target, int *answer[2]){
 
         char nowPiece = chessBoard[pos.x+v.x][pos.y+v.y];
         // 判斷是否活跳
-        if(nowPiece == "." && n == -1){
+        if(nowPiece == '.' && n == -1){
             n = 1;
         }
         // 連續
