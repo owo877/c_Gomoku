@@ -3,14 +3,15 @@
 #include <string.h>
 #include "function.h"
 
+// 8方向量
 const position vL[8] = {
         {-1, -1},
-        { 0, -1},
-        { 1, -1},
-        {-1,  0},
-        { 1,  0},
+        { -1, 0},
         {-1,  1},
+        { 0, -1},
         { 0,  1},
+        { 1, -1},
+        { 1,  0},
         { 1,  1}
 };
 // 顯示當前棋盤
@@ -26,50 +27,72 @@ void show(char chessBoard[19][19]){
     }
 }
 
-// 判斷連線數 answer = {3 or 4, jump(1) or normal(0) or None(-1)} 還沒做
+// 判斷連線數 answer = {-1 (start on mid) or 2 or 3 or 4, jump(1) or normal(0)} 還沒做
 // 活3跳(2 . 1) 活4跳(3 . 1 or 2 . 2)
 void linkCheck(char chessBoard[19][19], pieces target, int *answer){
     // target = {color(0,1), v(0~7), pos(x,y)}
     //      0  1  2
     // v:   3  A  4
     //      5  6  7
-    position v = vL[target.v]; // 取得目標向量
+
+    // 取得目標向量
+    position v = vL[target.v]; 
     // 棋子的座標
     position pos = target.pos;
     int color = target.color;
-    int link = 0;
-    int n = -1; // 計數是否爲 活x跳
-    int i;
+    int link = -1; // 連線數
+    int jump = 0; // 計數是否爲 活x跳
+    int i, f = 0;
     
+    // 當前位置對角判斷
+    position diagonallyV = vL[7-target.v];
+    if(chessBoard[pos.x+diagonallyV.x][pos.y+diagonallyV.y] == '0'+color){
+        answer[0] = link;
+        answer[1] = jump;
+        // printf("mid next!\n"); // 測試
+        return;
+    }
+    else{
+        link = 0;
+    }
+
     for(i=0; i<5; i++){
         // 預防 out of range
-        if(pos.x < 0 || pos.y < 0 || pos.x > 18 || pos.y > 18){
+        if(pos.x+v.x < 0 || pos.y+v.y < 0 || pos.x+v.x> 18 || pos.y+v.y > 18){
+            printf("out of range\n");
             break;
         }
 
+        // 有問題得改 10/08
         char nowPiece = chessBoard[pos.x+v.x][pos.y+v.y];
-        // 判斷是否活跳
-        if(nowPiece == '.' && n == -1){
-            n = 1;
-        }
         // 連續
-        else if(nowPiece == color){
-            pos.x += v.x;
-            pos.y += v.y;
+        if(nowPiece == '0'+color){
+            printf("add\n");
             link++;
+            f = 0;
         }
-        // 不同顏色 or 連續爲空
-        else{
-            // 不連續
-            if(i == 1){
-                n = 0;
-            }
+        // 判斷是否活跳
+        else if(nowPiece == '.' && jump == 0){
+            printf("jump\n");
+            jump = 1;
+            f = 1;
+        }
+        else if(nowPiece == '.' && jump == 1 && f == 1){
+            printf("連空\n");
+            jump = 0;
             break;
         }
+        // 不同顏色
+        else if(nowPiece != color){
+            printf("撞牆\n");
+            break;
+        }
+        pos.x += v.x;
+        pos.y += v.y;
     }
     // 如果有跳 跳前後連幾？判斷種類？
     answer[0] = link;
-    answer[1] = n;
+    answer[1] = jump;
 }
 
 void checkVector(char chessBoard[19][19], position pos, int *check){

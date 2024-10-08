@@ -24,20 +24,21 @@ int main(int argc, char *argv[]){
             }
         }
     }
-
+    
     // 確認數量
-    // anyPiecesL = (keyValue *)realloc(anyPiecesL, n * sizeof(keyValue)); //想減少不必要空間但不會
+    // anyPiecesL = (keyValue *)realloc(anyPiecesL, n * sizeof(keyValue)); //想減少不必要空間但不會  
     printf("\n%d\n", n);
     // 列印棋子的位置
     for(i=0; i<n; i++){
-        position pos = anyPiecesL[i].pos;
+        position pos = anyPiecesL[i].pos; // 有旗子位置
         // 確認
-        printf("x : %d y : %d | color :  %d \n", pos.x, pos.y, anyPiecesL[i].color);
+        printf("x : %d y : %d | color :  %d \n", pos.x+1, pos.y+1, anyPiecesL[i].color);
         // 確認周圍旗子向量 
         int v[8] = {-1,-1,-1,-1,-1,-1,-1,-1}; // 放棄
         checkVector(chessBoard, pos, v);
         for(j=0; j<8; j++){
             if(v[j] == -1){
+                // printf("None skip\n");
                 break;
             }
             // printf("%d ",v[j]); // 向量
@@ -45,7 +46,11 @@ int main(int argc, char *argv[]){
             pieces target = {anyPiecesL[i].color, v[j], pos};
             int type[2]; // 存結果
             linkCheck(chessBoard, target, type);
-            printf("連幾顆 : %d | 方向 : %d\n", type[0], v[j]);
+            if(type[0] == -1){
+                // 當前向量卡在中間
+                continue;
+            }
+            printf("連幾顆 : %d | 跳還不跳 : %d | 方向 : %d\n", type[0], type[1], v[j]);
         }
         printf("\n");
     }
