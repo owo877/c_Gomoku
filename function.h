@@ -15,11 +15,13 @@ typedef struct {
 
 // 判斷參數
 typedef struct {
+    position pos;
     int color;
     int v;
-    position pos;
 } pieces;
 
+// 控制是否顯示
+#define printControl 1
 // 顯示棋盤
 void show(char chessBorad[19][19]);
 // 判斷連線狀態

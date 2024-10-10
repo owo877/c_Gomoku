@@ -38,19 +38,21 @@ int main(int argc, char *argv[]){
         checkVector(chessBoard, pos, v);
         for(j=0; j<8; j++){
             if(v[j] == -1){
-                // printf("None skip\n");
+                // if(i == 0){
+                //     printf("單子\n");
+                // }
                 break;
             }
             // printf("%d ",v[j]); // 向量
             // target = {color(0,1), v(0~7), now[2](x,y)}
-            pieces target = {anyPiecesL[i].color, v[j], pos};
+            pieces target = {pos, anyPiecesL[i].color, v[j]};
             int type[2]; // 存結果
             linkCheck(chessBoard, target, type);
             if(type[0] == -1){
                 // 當前向量卡在中間
                 continue;
             }
-            printf("連幾顆 : %d | 跳還不跳 : %d | 方向 : %d\n", type[0], type[1], v[j]);
+            printf("連幾顆 : %d | 跳 : %d | 方向 : %d\n", type[0], type[1], v[j]);
         }
         printf("\n");
     }

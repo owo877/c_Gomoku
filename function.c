@@ -14,10 +14,16 @@ const position vL[8] = {
         { 1,  0},
         { 1,  1}
 };
+void print(char *str){
+    if(printControl){
+        printf("%s\n",str);
+    }
+}
 // 顯示當前棋盤
 void show(char chessBoard[19][19]){
     int i, j;
-    printf("\n   A B C D E F G H I J K L M N O P Q R S\n");
+    // printf("\n   A B C D E F G H I J K L M N O P Q R S\n");
+    printf("\n   1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9\n");
     for (i=0; i<19; i++){
         printf("%2d ", i+1);
         for(j=0; j<19; j++){
@@ -53,13 +59,13 @@ void linkCheck(char chessBoard[19][19], pieces target, int *answer){
         return;
     }
     else{
-        link = 0;
+        link = 1;
     }
 
     for(i=0; i<5; i++){
         // 預防 out of range
         if(pos.x+v.x < 0 || pos.y+v.y < 0 || pos.x+v.x> 18 || pos.y+v.y > 18){
-            printf("out of range\n");
+            print("out of range");
             break;
         }
 
@@ -67,24 +73,25 @@ void linkCheck(char chessBoard[19][19], pieces target, int *answer){
         char nowPiece = chessBoard[pos.x+v.x][pos.y+v.y];
         // 連續
         if(nowPiece == '0'+color){
-            printf("add\n");
+            print("add");
+            // printf("add\n");
             link++;
             f = 0;
         }
         // 判斷是否活跳
         else if(nowPiece == '.' && jump == 0){
-            printf("jump\n");
+            print("jump");
             jump = 1;
             f = 1;
         }
         else if(nowPiece == '.' && jump == 1 && f == 1){
-            printf("連空\n");
+            print("連空");
             jump = 0;
             break;
         }
         // 不同顏色
         else if(nowPiece != color){
-            printf("撞牆\n");
+            print("撞牆");
             break;
         }
         pos.x += v.x;
