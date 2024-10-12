@@ -5,16 +5,18 @@
 
 // 8方向量
 const position vL[8] = {
-        {-1, -1},
-        { -1, 0},
-        {-1,  1},
-        { 0, -1},
-        { 0,  1},
-        { 1, -1},
-        { 1,  0},
-        { 1,  1}
+    {-1, -1},
+    { -1, 0},
+    {-1,  1},
+    { 0, -1},
+    { 0,  1},
+    { 1, -1},
+    { 1,  0},
+    { 1,  1}
 };
+
 void print(char *str){
+
     if(printControl){
         printf("%s\n",str);
     }
@@ -22,8 +24,8 @@ void print(char *str){
 // 顯示當前棋盤
 void show(char chessBoard[19][19]){
     int i, j;
-    // printf("\n   A B C D E F G H I J K L M N O P Q R S\n");
-    printf("\n   1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9\n");
+    // printf("\n   A B C D E F G H I J K L M N O P Q R S | Y\n");
+    printf("\n   1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 | Y\n");
     for (i=0; i<19; i++){
         printf("%2d ", i+1);
         for(j=0; j<19; j++){
@@ -31,11 +33,12 @@ void show(char chessBoard[19][19]){
         }
         printf("\n");
     }
+    printf("--\nX\n");
 }
 
 // 判斷連線數 answer = {-1 (start on mid) or 2 or 3 or 4, jump(1) or normal(0)} 還沒做
 // 活3跳(2 . 1) 活4跳(3 . 1 or 2 . 2)
-void linkCheck(char chessBoard[19][19], pieces target, int *answer){
+void linkCheck(char chessBoard[19][19], pieces target, int *answer, int *chessVL){
     // target = {color(0,1), v(0~7), pos(x,y)}
     //      0  1  2
     // v:   3  A  4
@@ -69,12 +72,11 @@ void linkCheck(char chessBoard[19][19], pieces target, int *answer){
             break;
         }
 
-        // 有問題得改 10/08
+        // // 有問題得改 10/08
         char nowPiece = chessBoard[pos.x+v.x][pos.y+v.y];
         // 連續
         if(nowPiece == '0'+color){
             print("add");
-            // printf("add\n");
             link++;
             f = 0;
         }
@@ -97,7 +99,7 @@ void linkCheck(char chessBoard[19][19], pieces target, int *answer){
         pos.x += v.x;
         pos.y += v.y;
     }
-    // 如果有跳 跳前後連幾？判斷種類？
+    // return
     answer[0] = link;
     answer[1] = jump;
 }
