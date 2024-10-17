@@ -25,6 +25,6 @@ typedef struct {
 // 顯示棋盤
 void show(char chessBorad[19][19]);
 // 判斷連線狀態
-void linkCheck(char chessBoard[19][19], pieces target, int *answer, int chessVL);
+void linkCheck(char chessBoard[19][19], pieces target, int *answer);
 // 確認方向
 void checkVector(char chessBoard[19][19], position pos, int *check);
