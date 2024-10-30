@@ -21,7 +21,7 @@ typedef struct {
 } pieces;
 
 // 控制是否顯示
-#define printControl 1
+#define printControl 0
 // 顯示棋盤
 void show(char chessBorad[19][19]);
 // 判斷連線狀態

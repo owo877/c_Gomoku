@@ -28,20 +28,18 @@ int main(int argc, char *argv[]){
     
     // 確認數量
     // anyPiecesL = (keyValue *)realloc(anyPiecesL, n * sizeof(keyValue)); //想減少不必要空間但不會  
-    printf("\n%d\n", n);
+    printf("有幾顆棋子：%d\n", n);
     // 判斷個個旗子連續狀態
     for(i=0; i<n; i++){
         position pos = anyPiecesL[i].pos; // 有旗子位置
         // 確認周圍旗子向量 
         int v[8] = {-1,-1,-1,-1,-1,-1,-1,-1}; // 放棄
-        printf("\nx : %d y : %d | color :  %d \n", pos.x+1, pos.y+1, anyPiecesL[i].color);
         checkVector(chessBoard, pos, v);
         // 確認個向量連續
         for(j=0; j<8; j++){
             // 爲空
-            // FIXME color == 1 會跳過 
-            if(v[j] != 1){
-                break;
+            if(v[j] == -1){
+                continue;
             }
             // printf("%d\n",j);
             // target = {color(0,1), v(0~7), now[2](x,y)}
@@ -56,6 +54,7 @@ int main(int argc, char *argv[]){
                 // 當前向量卡在中間
                 continue;
             }
+            printf("\nx : %d y : %d | color :  %d \n", pos.x+1, pos.y+1, anyPiecesL[i].color);
             printf("連幾顆 : %d | 跳 : %d | 方向 : %d\n", type[0], type[1], j);
         }
         // printf("\n");
