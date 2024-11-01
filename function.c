@@ -25,15 +25,22 @@ void print(char *str){
 void show(char chessBoard[19][19]){
     int i, j;
     // printf("\n   A B C D E F G H I J K L M N O P Q R S | Y\n");
-    printf("\n   1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 | Y\n");
+    printf("\n   1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 Y\n");
     for (i=0; i<19; i++){
         printf("%2d ", i+1);
         for(j=0; j<19; j++){
-            printf("%c ", chessBoard[i][j]);
+            if(chessBoard[i][j] == '0'){
+                printf("\x1b[47m\x1b[30m");
+            }
+            else if(chessBoard[i][j] == '1'){
+                printf("\x1b[40m");
+            }
+            printf("%c", chessBoard[i][j]);
+            printf("\x1b[0m ");
         }
         printf("\n");
     }
-    printf("--\nX\n");
+    printf(" X\n");
 }
 
 // 判斷連線數 answer = {-1 (start on mid) or 2 or 3 or 4, jump(1) or normal(0)} 還沒做
@@ -53,7 +60,7 @@ void linkCheck(char chessBoard[19][19], pieces target, int *answer){
     int jump = 0; // 計數是否爲 活x跳
     int i, f = 0;
     
-    // 當前位置對角判斷
+    // 當前位置對角判斷 是否卡中間
     position diagonallyV = vL[7-target.v];
     if(chessBoard[pos.x+diagonallyV.x][pos.y+diagonallyV.y] == '0'+color){
         answer[0] = link;
@@ -65,28 +72,30 @@ void linkCheck(char chessBoard[19][19], pieces target, int *answer){
         link = 1;
     }
     // link = 1;
-    for(i=0; i<5; i++){
+    for(i=0; i<4; i++){
+        // 更新位置
+        pos.x += v.x;
+        pos.y += v.y; 
         // 預防 out of range
-        if(pos.x+v.x < 0 || pos.y+v.y < 0 || pos.x+v.x> 18 || pos.y+v.y > 18){
+        if(pos.x < 0 || pos.y < 0 || pos.x> 18 || pos.y > 18){
             print("out of range");
             break;
         }
-
         // // 有問題得改 10/08
-        char nowPiece = chessBoard[pos.x+v.x][pos.y+v.y];
+        char nowPiece = chessBoard[pos.x][pos.y];
         // 連續
         if(nowPiece == '0'+color){
             print("add");
-            link++;
             f = 0;
+            link++;
         }
         // 判斷是否活跳
         else if(nowPiece == '.' && jump == 0){
             print("jump");
-            jump = 1;
+            jump = i+1;
             f = 1;
         }
-        else if(nowPiece == '.' && jump == 1 && f == 1){
+        else if(nowPiece == '.' && jump !=0 && f == 1){
             print("連空");
             jump = 0;
             break;
@@ -95,11 +104,7 @@ void linkCheck(char chessBoard[19][19], pieces target, int *answer){
         else if(nowPiece != color){
             print("撞牆");
             break;
-        }
-        // chessVL[pos.x][pos.y][target.v] = 1;
-        pos.x += v.x;
-        pos.y += v.y;
-
+        } 
     }
     // return
     answer[0] = link;

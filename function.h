@@ -1,5 +1,4 @@
 // 宣告檔案
-
 // typedef enum{};
 // 儲存座標
 typedef struct {

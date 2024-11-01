@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
     // argv[1] = "Black" or "White"
     // 判斷當前棋色（黒子 1）（白子 0）
     int nowColor = strcmp(argv[1], "Black") == 0 ? 1 : 0; // strcmp ture is 0
-    printf("target : %d\n", nowColor);
+    printf("target color : %d\n", nowColor);
     // 接收棋盤 
     for(i=0; i<19; i++){
         for(j=0; j<19; j++){
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
     
     // 確認數量
     // anyPiecesL = (keyValue *)realloc(anyPiecesL, n * sizeof(keyValue)); //想減少不必要空間但不會  
-    printf("有幾顆棋子：%d\n", n);
+    printf("場上有幾顆棋子：%d\n\n", n);
     // 判斷個個旗子連續狀態
     for(i=0; i<n; i++){
         position pos = anyPiecesL[i].pos; // 有旗子位置
@@ -50,14 +50,19 @@ int main(int argc, char *argv[]){
             pieces target = {pos, anyPiecesL[i].color, j};
             int type[2]; // 存結果
             linkCheck(chessBoard, target, type);
-            if(type[0] <=1){
+            if(type[0] == -1){
                 // 當前向量卡在中間
                 continue;
             }
-            printf("\nx : %d y : %d | color :  %d \n", pos.x+1, pos.y+1, anyPiecesL[i].color);
-            printf("連幾顆 : %d | 跳 : %d | 方向 : %d\n", type[0], type[1], j);
+            // 確認用
+            printf("\x1b[91m");
+            printf("x : %02d y : %02d | color :  %d\n", pos.x+1, pos.y+1, anyPiecesL[i].color);
+            printf("\x1b[0m");
+
+            printf("\x1b[96m");
+            printf("連幾顆 : %d | 跳第 : %d | 方向 : %d\n\n", type[0], type[1], j);
+            printf("\x1b[0m");
         }
-        // printf("\n");
     }
     // 列印棋盤
     show(chessBoard);
