@@ -23,9 +23,15 @@ typedef struct {
 
 // 控制是否顯示
 #define printControl 0
+void print(char *str);
+// 棋盤大小
+#define BoardSize 19
+extern char chessBoard[BoardSize][BoardSize];
 // 顯示棋盤
-void show(char chessBorad[19][19]);
+void show();
+// 顏色是否相等
+int colorSame(char piece, int color);
 // 判斷連線狀態
-void linkCheck(char chessBoard[19][19], Pieces target, int *answer);
+void linkCheck(Pieces target, int *answer);
 // 確認方向
-void checkVector(char chessBoard[19][19], Position pos, int *check);
+void checkVector(Position pos, int *check);

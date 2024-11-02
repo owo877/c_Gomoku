@@ -14,20 +14,20 @@ const Position vL[8] = {
     { 0,  1},
     { 1,  1}
 };
-
+int colorSame(char pieces, int color){
+    return pieces == '0'+color;
+}
 void print(char *str){
-    if(printControl){
-        printf("%s\n",str);
-    }
+    if(printControl)printf("%s",str);
 }
 // 顯示當前棋盤
-void show(char chessBoard[19][19]){
+void show(){
     int i, j;
     // printf("\n   A B C D E F G H I J K L M N O P Q R S | Y\n");
     printf("\n   1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 Y\n");
-    for (i=0; i<19; i++){
+    for (i=0; i<BoardSize; i++){
         printf("%2d ", i+1);
-        for(j=0; j<19; j++){
+        for(j=0; j<BoardSize; j++){
             if(chessBoard[i][j] == '0'){
                 printf("\x1b[47m\x1b[30m");
             }
@@ -45,7 +45,7 @@ void show(char chessBoard[19][19]){
 // 判斷連線數 
 // -answer : {-1 (start on mid) or 2 or 3 or 4, jump(1) or normal(0)}
 // -活3跳(2 . 1) 活4跳(3 . 1 or 2 . 2)
-void linkCheck(char chessBoard[19][19], Pieces target, int *answer){
+void linkCheck(Pieces target, int *answer){
     // -target = {color(0,1), v(0~7), pos(x,y)}
     //      0  3  5
     // v:   1  A  6
@@ -62,7 +62,8 @@ void linkCheck(char chessBoard[19][19], Pieces target, int *answer){
     
     // 當前位置對角判斷 是否卡中間
     Position diagonallyV = vL[7-target.v];
-    if(chessBoard[pos.x+diagonallyV.x][pos.y+diagonallyV.y] == '0'+color || chessBoard[pos.x+diagonallyV.x*2][pos.y+diagonallyV.y*2] == '0'+color){
+    int xv = diagonallyV.x, yv = diagonallyV.y; 
+    if(colorSame(chessBoard[pos.x+xv][pos.y+yv], color)||colorSame(chessBoard[pos.x+xv*2][pos.y+yv*2], color)){
         answer[0] = link;
         answer[1] = jump;
         // printf("mid next!\n"); // 測試
@@ -77,32 +78,32 @@ void linkCheck(char chessBoard[19][19], Pieces target, int *answer){
         pos.x += v.x;
         pos.y += v.y; 
         // 預防 out of range
-        if(pos.x < 0 || pos.y < 0 || pos.x> 18 || pos.y > 18){
-            print("out of range");
+        if(pos.x < 0 || pos.y < 0 || pos.x> BoardSize-1 || pos.y > BoardSize-1){
+            print("out of range\n");
             break;
         }
         // // 有問題得改 10/08
         char nowPiece = chessBoard[pos.x][pos.y];
         // 連續
-        if(nowPiece == '0'+color){
-            print("add");
+        if(colorSame(nowPiece, color)){
+            print("add\n");
             f = 0;
             link++;
         }
         // 判斷是否活跳
         else if(nowPiece == '.' && jump == 0){
-            print("jump");
+            print("jump\n");
             jump = i+1;
             f = 1;
         }
         else if(nowPiece == '.' && jump !=0 && f == 1){
-            print("連空");
+            print("連空\n");
             jump = 0;
             break;
         }
         // 不同棋子顏色
         else if(nowPiece != color){
-            print("撞牆");
+            print("撞牆\n");
             break;
         } 
     }
@@ -111,17 +112,17 @@ void linkCheck(char chessBoard[19][19], Pieces target, int *answer){
     answer[1] = jump;
 }
 
-void checkVector(char chessBoard[19][19], Position pos, int *check){
+void checkVector(Position pos, int *check){
     int i = 0;
     char color = chessBoard[pos.x][pos.y];
     for(i=0; i<8; i++){
         Position v = vL[i];
         int x = pos.x + v.x, y = pos.y + v.y;
         // 預防 out of range
-        if(x < 0 || y < 0 || x > 18 || y > 18){
+        if(x<0 || y<0 || x>BoardSize-1 || y>BoardSize-1){
             continue;
         }
-        else if(chessBoard[x][y] == color){
+        if(chessBoard[x][y] == color){
             // printf("%d", i);
             check[i] = 1;
         }
