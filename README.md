@@ -1,5 +1,5 @@
 # 屏大 資工系 五子棋 for C
-嘗試製作AI下五子棋  
+嘗試製作自動下五子棋  
   
 ![image](https://github.com/owo877/c_Gomoku/blob/main/cbb113111.webp)  
 ## 棋盤樣式
@@ -56,15 +56,5 @@ v : 1  A  6
 ├── function.h
 └── README.md
 ```
-  
-## git 指令
-```git
-git add 檔案
-```
-```git
-git commit -m "內容"
-```
-``` git
-git push
-``` 
+ 
   
