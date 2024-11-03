@@ -63,12 +63,25 @@ int main(int argc, char *argv[]){
             printf("連幾顆: %d | 跳第: %d | 方向: %d\n\n", allPieces[m].jump, allPieces[m].link, j);
             printf("\x1b[0m");
 
-            m++;            
-        }
+            // 判斷有連線下棋位置
+            // TODO 給相對向量座標 returnAns(pos) 
+            if(allPieces[m].link >= 4){
+                if(allPieces[m].jump != 0){
+                    // 有活跳直接擋
+                    // returnAns(allPieces[m].pos);
+                }
+                else{
+                    // 無跳擋頭或尾
+                }
+            }
+            else if(allPieces[m].link == 3 && allPieces[m].jump != 0){
+                // 活跳得擋
+            }
 
-        // 判斷下棋點
-        
+            m++;
+        }
     }
+    
     // 列印棋盤
     show();
 }

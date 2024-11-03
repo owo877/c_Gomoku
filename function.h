@@ -30,8 +30,10 @@ extern char chessBoard[BoardSize][BoardSize];
 // 顯示棋盤
 void show();
 // 顏色是否相等
-int colorSame(char piece, int color);
+int colorSame(char pieces, int color);
 // 判斷連線狀態
 void linkCheck(Pieces target, int *answer);
 // 確認方向
 void checkVector(Position pos, int *check);
+// 回傳
+void returnAns(Position pos);

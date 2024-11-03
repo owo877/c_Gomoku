@@ -17,6 +17,9 @@ const Position vL[8] = {
 int colorSame(char pieces, int color){
     return pieces == '0'+color;
 }
+void returnAns(Position pos){
+    printf("%c, %d",pos.y+'A',pos.x);
+}
 void print(char *str){
     if(printControl)printf("%s",str);
 }
