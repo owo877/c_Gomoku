@@ -1,4 +1,6 @@
 *.exe
 *.bat
 *.o
+*.sh
+cbb113111
 ./obj
