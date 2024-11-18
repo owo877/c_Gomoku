@@ -22,12 +22,13 @@ $(TARGET): $(OBJS)
 
 # 確保物件文件的資料夾存在
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
 
 # 規則: 如何從 .c 源文件編譯成 .o 目標文件
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+
 # 清理編譯生成的文件
 clean:
-	del $(TARGET).exe
-	clean.bat
+	rm -f $(TARGET) $(OBJS)
+	rm -rf $(OBJ_DIR)
