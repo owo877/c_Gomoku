@@ -4,4 +4,4 @@
 *.sh
 cbb113111
 ./obj
-Makefile
+**/Makefile
