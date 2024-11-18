@@ -9,9 +9,11 @@ int main(int argc, char *argv[]){
     // char chessBoard[19][19];
     int i, j, n = 0, m = 0;
     // -存棋子位置 {{x, y}, color}
-    KeyValue anyPiecesL[BoardSize*BoardSize]; 
+    // KeyValue anyPiecesL[BoardSize*BoardSize];
+    KeyValue *anyPiecesL = malloc(sizeof(KeyValue) * n);
     // -存是我有有機會活四連線
-    Pieces allPieces[BoardSize*BoardSize];
+    // Pieces allPieces[BoardSize*BoardSize];
+    Pieces *allPieces = malloc(sizeof(Pieces) * BoardSize * BoardSize);
     // -argv[1] = "Black" or "White"
     // -當前棋色（黒子 1）（白子 0）
     int nowColor = strcmp(argv[1], "Black") == 0 ? 1 : 0; // strcmp ture is 0
@@ -79,9 +81,12 @@ int main(int argc, char *argv[]){
             }
 
             m++;
+
         }
     }
     
     // 列印棋盤
     show();
+    free(anyPiecesL);
+    free(allPieces);
 }
