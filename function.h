@@ -13,10 +13,11 @@ typedef struct {
 } KeyValue;
 
 // 判斷參數
+// -target : {color(0,1), v(0~7), now[2](x,y), link, jump}
 typedef struct {
-    Position pos;
     int color;
     int v;
+    Position pos;
     int link;
     int jump;
 } Pieces;
@@ -37,3 +38,5 @@ void linkCheck(Pieces target, int *answer);
 void checkVector(Position pos, int *check);
 // 回傳
 void returnAns(Position pos);
+// show chess
+void showChess(Position pos, Pieces target);

@@ -23,6 +23,10 @@ void returnAns(Position pos){
 void print(char *str){
     if(printControl)printf("%s",str);
 }
+// show chess
+void showChess(Position pos, Pieces target){
+    printf("pos : %02d %02d, color : %d, v : %d, link : %d, jump : %d\n", pos.y+1, pos.x+1, target.color, target.v, target.link, target.jump);
+}
 // 顯示當前棋盤
 void show(){
     int i, j;
