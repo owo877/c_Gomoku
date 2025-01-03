@@ -17,15 +17,21 @@ const Position vL[8] = {
 int colorSame(char pieces, int color){
     return pieces == '0'+color;
 }
+// 回傳下棋座標
 void returnAns(Position pos){
     printf("%c, %d",pos.y+'A',pos.x);
 }
+// 控制是否顯示
 void print(char *str){
     if(printControl)printf("%s",str);
 }
 // show chess
 void showChess(Position pos, Pieces target){
-    printf("pos : %02d %02d, color : %d, v : %d, link : %d, jump : %d\n", pos.y+1, pos.x+1, target.color, target.v, target.link, target.jump);
+    printf("pos : %02d %02d, color : %d, v : %d, link : %d, jump : %d\n", 
+        pos.y+1, pos.x+1,
+        target.color, target.v,
+        target.link, target.jump
+        );
 }
 // 顯示當前棋盤
 void show(){
@@ -124,6 +130,7 @@ void checkVector(Position pos, int *check){
     char color = chessBoard[pos.x][pos.y];
     for(i=0; i<8; i++){
         Position v = vL[i];
+        // 依向量位移之前座標
         int x = pos.x + v.x, y = pos.y + v.y;
         // 預防 out of range
         if(x<0 || y<0 || x>BoardSize-1 || y>BoardSize-1){
