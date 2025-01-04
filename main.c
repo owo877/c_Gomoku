@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
 
     // -存棋子位置 {{x, y}, color}
     // KeyValue anyPiecesL[BoardSize*BoardSize];
-    KeyValue *anyPiecesL = malloc(sizeof(KeyValue) * n);
+    KeyValue *anyPiecesL = malloc(sizeof(KeyValue) * BoardSize);
 
     // -存是我有有連線的棋子
     // Pieces allPieces[BoardSize*BoardSize];
@@ -43,7 +43,6 @@ int main(int argc, char *argv[]){
     // 判斷個個旗子連續狀態
     for(i=0; i<n; i++){
         Position pos = anyPiecesL[i].pos; // 當前旗子位置座標
-
         // 確認周圍旗子向量 
         int v[8] = {-1,-1,-1,-1,-1,-1,-1,-1}; // 先這樣沒想法
         checkVector(pos, v);
@@ -55,7 +54,7 @@ int main(int argc, char *argv[]){
 
             // -target : {color(0,1), v(0~7), now[2](x,y), link, jump}
             // -type : {link, jump}
-            Pieces target = {anyPiecesL[i].color, v[j], pos, 0, 0};
+            Pieces target = {anyPiecesL[i].color, j, pos, 0, 0};
             int type[2]; // 存結果
 
             linkCheck(target, type);

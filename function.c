@@ -15,7 +15,7 @@ const Position vL[8] = {
     { 1,  1}
 };
 int colorSame(char pieces, int color){
-    return pieces == '0'+color;
+    return color+'0' == pieces;
 }
 // 回傳下棋座標
 void returnAns(Position pos){
@@ -61,7 +61,7 @@ void show(){
 void linkCheck(Pieces target, int *answer){
     // -target = {color(0,1), v(0~7), pos(x,y)}
     //      0  3  5
-    // v:   1  A  6
+    // v:   1  P  6
     //      2  4  7
 
     // 取得目標向量
@@ -128,16 +128,19 @@ void linkCheck(Pieces target, int *answer){
 void checkVector(Position pos, int *check){
     int i = 0;
     char color = chessBoard[pos.x][pos.y];
+
     for(i=0; i<8; i++){
         Position v = vL[i];
         // 依向量位移之前座標
-        int x = pos.x + v.x, y = pos.y + v.y;
+        int x = pos.x + v.x;
+        int y = pos.y + v.y;
         // 預防 out of range
         if(x<0 || y<0 || x>BoardSize-1 || y>BoardSize-1){
+            // printf("%d %d out of range\n",x,y);
             continue;
         }
+
         if(chessBoard[x][y] == color){
-            // printf("%d", i);
             check[i] = 1;
         }
     }
