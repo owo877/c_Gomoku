@@ -28,6 +28,8 @@ void print(char *str);
 // 棋盤大小
 #define BoardSize 19
 extern char chessBoard[BoardSize][BoardSize];
+// 棋子八方向量
+extern Position vL[8];
 // 顯示棋盤
 void show();
 // 顏色是否相等

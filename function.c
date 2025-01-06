@@ -4,7 +4,7 @@
 #include "function.h"
 
 // 8方向量
-const Position vL[8] = {
+Position vL[8] = {
     {-1, -1},
     { 0, -1},
     { 1, -1},
@@ -32,7 +32,7 @@ void showChess(Position pos, Pieces target){
     printf("\x1b[0m");
 
     printf("\x1b[96m");
-    printf("連幾顆: %d | 跳第: %d | 方向: %d\n\n", target.link, target.jump, target.v);
+    printf("連幾顆: %d | 跳第: %d | 方向: %d\n", target.link, target.jump, target.v);
     printf("\x1b[0m");
 }
 // 顯示當前棋盤
@@ -81,7 +81,7 @@ void linkCheck(Pieces *target){
     if(colorSame(chessBoard[pos.x+xv][pos.y+yv], color)||colorSame(chessBoard[pos.x+xv*2][pos.y+yv*2], color)){
         target->link = link;
         target->jump = jump;
-        // printf("mid next!\n"); // 測試
+        // printf("%d %d mid next!\n",pos.x+1,pos.y+1); // 測試
         return;
     }
     else{
@@ -124,7 +124,7 @@ void linkCheck(Pieces *target){
     }
     // return
     target->link = link;
-    target->jump = jump;
+    target->jump = (jump >= 4) ? 0 : jump;
 }
 
 void checkVector(Position pos, int *check){

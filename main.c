@@ -4,7 +4,7 @@
 #include "function.h"
 
 char chessBoard[BoardSize][BoardSize];
-
+Position vL[8];
 // 主程式
 int main(int argc, char *argv[]){
     // char chessBoard[19][19];
@@ -12,9 +12,9 @@ int main(int argc, char *argv[]){
 
     // -存棋子位置 {{x, y}, color}
     // KeyValue anyPiecesL[BoardSize*BoardSize];
-    KeyValue *anyPiecesL = malloc(sizeof(KeyValue) * BoardSize);
+    KeyValue *anyPiecesL = malloc(sizeof(KeyValue) * BoardSize * BoardSize);
 
-    // -存是我有有連線的棋子
+    // -存是我有連線的棋子
     // Pieces allPieces[BoardSize*BoardSize];
     Pieces *allPieces = malloc(sizeof(Pieces) * BoardSize * BoardSize);
 
@@ -70,22 +70,35 @@ int main(int argc, char *argv[]){
             // 確認用
             showChess(pos, allPieces[m]);
 
-            // 判斷有連線下棋位置
+            // 計算有連線各點權重
+            int link = allPieces[m].link;
+            int jump = allPieces[m].jump;
             // TODO 給相對向量座標 returnAns(pos) 
-            if(allPieces[m].link >= 4){
-                if(allPieces[m].jump != 0){
-                    // 有活跳直接擋
-                    // returnAns(allPieces[m].pos);
+            for (int k = 4; k > 1; k--){
+                if(link == k){
+                    if(jump != 0){
+                        // 有活跳
+                        int x = pos.x + vL[j].x * jump;
+                        int y = pos.y + vL[j].y * jump;
+                        printf("可堵下位置（%d 活跳）：%d %d\n", k, x+1, y+1);
+                    }
+                    else{
+                        // 無跳頭或尾
+                        int x = pos.x + vL[j].x * link;
+                        int y = pos.y + vL[j].y * link;
+                        // 確保是空的位子
+                        if(chessBoard[x][y] == '.'){
+                            printf("可堵下位置（%d）：%d %d\n", k, x+1, y+1);
+                        }
+                        else{
+                            printf("有牆\n");
+                        }
+                    }
                 }
-                else{
-                    // 無跳擋頭或尾
-                }
-            }
-            else if(allPieces[m].link == 3 && allPieces[m].jump != 0){
-                // 活跳得擋
             }
             
-
+            printf("\n");
+            // 計算可能連線數量 
             m++;
         }
     }
