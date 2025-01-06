@@ -73,7 +73,6 @@ int main(int argc, char *argv[]){
             // 計算有連線各點權重
             int link = allPieces[m].link;
             int jump = allPieces[m].jump;
-            // TODO 給相對向量座標 returnAns(pos) 
             for (int k = 4; k > 1; k--){
                 if(link == k){
                     if(jump != 0){
