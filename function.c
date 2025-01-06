@@ -127,11 +127,15 @@ void linkCheck(Pieces *target){
     target->jump = (jump >= 4) ? 0 : jump;
 }
 
-void checkVector(Position pos, int *check){
-    int i = 0;
+int checkVector(Position pos, Pieces *allPieces, int m){
     char color = chessBoard[pos.x][pos.y];
 
-    for(i=0; i<8; i++){
+    for(int i=0; i<8; i++){
+        int link; // 連線數
+        int jump; // 計數是否爲 活x跳
+        int f;
+        int n = 0;
+        // 取得目標向量
         Position v = vL[i];
         // 依向量位移之前座標
         int x = pos.x + v.x;
@@ -143,7 +147,76 @@ void checkVector(Position pos, int *check){
         }
 
         if(chessBoard[x][y] == color){
-            check[i] = 1;
+            link = 2; // 連線數
+            jump = 0; // 計數是否爲 活x跳
+            f = 0;
         }
+        else if(chessBoard[x+v.x][y+v.y] == color && chessBoard[x][y] == '.'){
+            link = 2; // 連線數
+            jump = 2; // 計數是否爲 活x跳
+            f = 1;
+            n = 1;
+        }
+        else{
+            continue;
+        }
+
+        // -target = {color(0,1), v(0~7), pos(x,y), link, jump}
+        //      0  3  5
+        // v:   1  P  6
+        //      2  4  7
+        
+        // 當前位置對角判斷 是否卡中間
+        // TODO: 這裏有問題 沒作用
+        Position diagonallyV = vL[7-i];
+        int xv = diagonallyV.x, yv = diagonallyV.y; 
+        if(colorSame(chessBoard[pos.x+xv][pos.y+yv], color)||colorSame(chessBoard[pos.x+xv*2][pos.y+yv*2], color)){
+            // printf("%d %d mid next!\n",pos.x+1,pos.y+1); // 測試
+            continue;
+        }
+
+        // TODO: 連續數有問題 
+        for(int j=0; j<3-n; j++){
+            // 更新位置
+            x += v.x;
+            y += v.y; 
+            // 預防 out of range
+            if(x < 0 || y < 0 || x > BoardSize-1 || y > BoardSize-1){
+                print("out of range\n");
+                break;
+            }
+            // // 有問題得改 10/08
+            char nowPiece = chessBoard[x][y];
+            // 連續
+            if(colorSame(nowPiece, color)){
+                print("add\n");
+                f = 0;
+                link++;
+            }
+            // 判斷是否活跳
+            else if(nowPiece == '.' && jump == 0){
+                print("jump\n");
+                jump = i+1;
+                f = 1;
+            }
+            else if(nowPiece == '.' && jump !=0 && f == 1){
+                print("連空\n");
+                jump = 0;
+                break;
+            }
+            // 不同棋子顏色
+            else if(nowPiece != color){
+                print("撞牆\n");
+                break;
+            } 
+        }
+        // return
+        allPieces[m].color = color-'0';
+        allPieces[m].v = i;
+        allPieces[m].pos = pos;
+        allPieces[m].link = link;
+        allPieces[m].jump = (jump >= 4) ? 0 : jump;
+        m++;
     }
+    return m;
 }

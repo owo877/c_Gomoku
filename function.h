@@ -37,7 +37,7 @@ int colorSame(char pieces, int color);
 // 判斷連線狀態
 void linkCheck(Pieces *target);
 // 確認方向
-void checkVector(Position pos, int *check);
+int checkVector(Position pos, Pieces *allPieces, int m);
 // 回傳
 void returnAns(Position pos);
 // show chess

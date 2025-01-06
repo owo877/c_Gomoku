@@ -43,64 +43,39 @@ int main(int argc, char *argv[]){
     // 判斷個個旗子連續狀態
     for(i=0; i<n; i++){
         Position pos = anyPiecesL[i].pos; // 當前旗子位置座標
-        // 確認周圍旗子向量 
-        int v[8] = {-1,-1,-1,-1,-1,-1,-1,-1}; // 先這樣沒想法
-        checkVector(pos, v);
-
-        // 確認個向量棋子是否連續
-        for(j=0; j<8; j++){
-            // 爲空
-            if(v[j] == -1)continue;
-
-            // -target : {color(0,1), v(0~7), now[2](x,y), link, jump}
-            // //type : {link, jump}
-            Pieces target = {anyPiecesL[i].color, j, pos, 0, 0};
-            // //int type[2]; // 存結果
-
-            linkCheck(&target);
-
-            // 當前向量棋子卡在中間back
-            if(target.link == -1)continue;
-
-            // 存結果
-            // //target.link = type[0];
-            // //target.jump = type[1];
-            allPieces[m] = target;
-
-            // 確認用
-            showChess(pos, allPieces[m]);
-
-            // 計算有連線各點權重
-            int link = allPieces[m].link;
-            int jump = allPieces[m].jump;
-            for (int k = 4; k > 1; k--){
-                if(link == k){
-                    if(jump != 0){
-                        // 有活跳
-                        int x = pos.x + vL[j].x * jump;
-                        int y = pos.y + vL[j].y * jump;
-                        printf("可堵下位置（%d 活跳）：%d %d\n", k, x+1, y+1);
-                    }
-                    else{
-                        // 無跳頭或尾
-                        int x = pos.x + vL[j].x * link;
-                        int y = pos.y + vL[j].y * link;
-                        // 確保是空的位子
-                        if(chessBoard[x][y] == '.'){
-                            printf("可堵下位置（%d）：%d %d\n", k, x+1, y+1);
-                        }
-                        else{
-                            printf("有牆\n");
-                        }
-                    }
-                }
-            }
-            
-            printf("\n");
-            // 計算可能連線數量 
-            m++;
-        }
+        // 確認周圍旗子
+        m = checkVector(pos, allPieces, m);
     }
+
+    printf("有多少棋子連線：%d\n", m);
+    for(i=0; i<m; i++){
+        showChess(allPieces[i].pos, allPieces[i]);
+    }
+
+        // for (int k = 4; k > 1; k--){
+        //     if(link == k){
+        //         if(jump != 0){
+        //             // 有活跳
+        //             int x = pos.x + vL[j].x * jump;
+        //             int y = pos.y + vL[j].y * jump;
+        //             printf("可堵下位置（%d 活跳）：%d %d\n", k, x+1, y+1);
+        //         }
+        //         else{
+        //             // 無跳頭或尾
+        //             int x = pos.x + vL[j].x * link;
+        //             int y = pos.y + vL[j].y * link;
+        //             // 確保是空的位子
+        //             if(chessBoard[x][y] == '.'){
+        //                 printf("可堵下位置（%d）：%d %d\n", k, x+1, y+1);
+        //             }
+        //             else{
+        //                 printf("有牆\n");
+        //             }
+        //         }
+        //     }
+        // }
+        // printf("\n");
+    // }
     
     // 列印棋盤
     show();
