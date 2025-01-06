@@ -33,7 +33,7 @@ void show();
 // 顏色是否相等
 int colorSame(char pieces, int color);
 // 判斷連線狀態
-void linkCheck(Pieces target, int *answer);
+void linkCheck(Pieces *target);
 // 確認方向
 void checkVector(Position pos, int *check);
 // 回傳

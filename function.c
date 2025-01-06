@@ -27,11 +27,13 @@ void print(char *str){
 }
 // show chess
 void showChess(Position pos, Pieces target){
-    printf("pos : %02d %02d, color : %d, v : %d, link : %d, jump : %d\n", 
-        pos.y+1, pos.x+1,
-        target.color, target.v,
-        target.link, target.jump
-        );
+    printf("\x1b[91m");
+    printf("x: %02d y: %02d | color: %d\n", pos.x+1, pos.y+1, target.color);
+    printf("\x1b[0m");
+
+    printf("\x1b[96m");
+    printf("連幾顆: %d | 跳第: %d | 方向: %d\n\n", target.link, target.jump, target.v);
+    printf("\x1b[0m");
 }
 // 顯示當前棋盤
 void show(){
@@ -58,27 +60,27 @@ void show(){
 // 判斷連線數 
 // -answer : {-1 (start on mid) or 2 or 3 or 4, jump(1) or normal(0)}
 // -活3跳(2 . 1) 活4跳(3 . 1 or 2 . 2)
-void linkCheck(Pieces target, int *answer){
-    // -target = {color(0,1), v(0~7), pos(x,y)}
+void linkCheck(Pieces *target){
+    // -target = {color(0,1), v(0~7), pos(x,y), link, jump}
     //      0  3  5
     // v:   1  P  6
     //      2  4  7
 
     // 取得目標向量
-    Position v = vL[target.v]; 
+    Position v = vL[target->v]; 
     // 棋子的座標
-    Position pos = target.pos;
-    int color = target.color;
+    Position pos = target->pos;
+    int color = target->color;
     int link = -1; // 連線數
     int jump = 0; // 計數是否爲 活x跳
     int i, f = 0;
     
     // 當前位置對角判斷 是否卡中間
-    Position diagonallyV = vL[7-target.v];
+    Position diagonallyV = vL[7-target->v];
     int xv = diagonallyV.x, yv = diagonallyV.y; 
     if(colorSame(chessBoard[pos.x+xv][pos.y+yv], color)||colorSame(chessBoard[pos.x+xv*2][pos.y+yv*2], color)){
-        answer[0] = link;
-        answer[1] = jump;
+        target->link = link;
+        target->jump = jump;
         // printf("mid next!\n"); // 測試
         return;
     }
@@ -121,8 +123,8 @@ void linkCheck(Pieces target, int *answer){
         } 
     }
     // return
-    answer[0] = link;
-    answer[1] = jump;
+    target->link = link;
+    target->jump = jump;
 }
 
 void checkVector(Position pos, int *check){
