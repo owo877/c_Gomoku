@@ -44,38 +44,40 @@ int main(int argc, char *argv[]){
     for(i=0; i<n; i++){
         Position pos = anyPiecesL[i].pos; // 當前旗子位置座標
         // 確認周圍旗子
-        m = checkVector(pos, allPieces, m);
+        m = checkLink(pos, allPieces, m);
     }
 
-    printf("有多少棋子連線：%d\n", m);
+    // printf("有多少棋子連線：%d\n", m);
     for(i=0; i<m; i++){
+        // 確認用
         showChess(allPieces[i].pos, allPieces[i]);
-    }
+        
+        // 判斷所需參數
+        Position pos = allPieces[i].pos;
+        int link = allPieces[i].link;
+        int jump = allPieces[i].jump; // 位置
+        int v = allPieces[i].v;
 
-        // for (int k = 4; k > 1; k--){
-        //     if(link == k){
-        //         if(jump != 0){
-        //             // 有活跳
-        //             int x = pos.x + vL[j].x * jump;
-        //             int y = pos.y + vL[j].y * jump;
-        //             printf("可堵下位置（%d 活跳）：%d %d\n", k, x+1, y+1);
-        //         }
-        //         else{
-        //             // 無跳頭或尾
-        //             int x = pos.x + vL[j].x * link;
-        //             int y = pos.y + vL[j].y * link;
-        //             // 確保是空的位子
-        //             if(chessBoard[x][y] == '.'){
-        //                 printf("可堵下位置（%d）：%d %d\n", k, x+1, y+1);
-        //             }
-        //             else{
-        //                 printf("有牆\n");
-        //             }
-        //         }
-        //     }
-        // }
-        // printf("\n");
-    // }
+        // 可下位置判斷
+        if(allPieces[i].jump != 0){
+            int x = pos.x + vL[v].x * jump;
+            int y = pos.y + vL[v].y * jump;
+            printf("可堵/下位置（%d 活跳）| %02d %02d\n", link, x+1, y+1);
+        }
+        else{
+            int x = pos.x + vL[v].x * link;
+            int y = pos.y + vL[v].y * link;
+            // 確保是空的位子
+            if(chessBoard[x][y] == '.'){
+                printf("可堵/下位置（%d 連線）| %02d %02d\n", link, x+1, y+1);
+            }
+            else{
+                printf("%02d %02d | 有牆\n",x+1,y+1);  
+            }
+        }
+
+    printf("\n");
+    }
     
     // 列印棋盤
     show();

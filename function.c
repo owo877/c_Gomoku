@@ -14,16 +14,16 @@ Position vL[8] = {
     { 0,  1},
     { 1,  1}
 };
-int colorSame(char pieces, int color){
-    return color+'0' == pieces;
+int colorSame(char pieces, char color){
+    return color == pieces;
 }
 // 回傳下棋座標
 void returnAns(Position pos){
-    printf("%c, %d",pos.y+'A',pos.x);
+    printf("%c, %d", pos.y+'A', pos.x);
 }
 // 控制是否顯示
 void print(char *str){
-    if(printControl)printf("%s",str);
+    if(printControl)printf("%s", str);
 }
 // show chess
 void showChess(Position pos, Pieces target){
@@ -58,78 +58,14 @@ void show(){
 }
 
 // 判斷連線數 
-// -answer : {-1 (start on mid) or 2 or 3 or 4, jump(1) or normal(0)}
+// -answer : {-1 (start on mid) or 2 or 3 or 4, jump(第幾個位置) or normal(0)}
 // -活3跳(2 . 1) 活4跳(3 . 1 or 2 . 2)
-void linkCheck(Pieces *target){
-    // -target = {color(0,1), v(0~7), pos(x,y), link, jump}
-    //      0  3  5
-    // v:   1  P  6
-    //      2  4  7
-
-    // 取得目標向量
-    Position v = vL[target->v]; 
-    // 棋子的座標
-    Position pos = target->pos;
-    int color = target->color;
-    int link = -1; // 連線數
-    int jump = 0; // 計數是否爲 活x跳
-    int i, f = 0;
-    
-    // 當前位置對角判斷 是否卡中間
-    Position diagonallyV = vL[7-target->v];
-    int xv = diagonallyV.x, yv = diagonallyV.y; 
-    if(colorSame(chessBoard[pos.x+xv][pos.y+yv], color)||colorSame(chessBoard[pos.x+xv*2][pos.y+yv*2], color)){
-        target->link = link;
-        target->jump = jump;
-        // printf("%d %d mid next!\n",pos.x+1,pos.y+1); // 測試
-        return;
-    }
-    else{
-        link = 1;
-    }
-
-    for(i=0; i<4; i++){
-        // 更新位置
-        pos.x += v.x;
-        pos.y += v.y; 
-        // 預防 out of range
-        if(pos.x < 0 || pos.y < 0 || pos.x> BoardSize-1 || pos.y > BoardSize-1){
-            print("out of range\n");
-            break;
-        }
-        // // 有問題得改 10/08
-        char nowPiece = chessBoard[pos.x][pos.y];
-        // 連續
-        if(colorSame(nowPiece, color)){
-            print("add\n");
-            f = 0;
-            link++;
-        }
-        // 判斷是否活跳
-        else if(nowPiece == '.' && jump == 0){
-            print("jump\n");
-            jump = i+1;
-            f = 1;
-        }
-        else if(nowPiece == '.' && jump !=0 && f == 1){
-            print("連空\n");
-            jump = 0;
-            break;
-        }
-        // 不同棋子顏色
-        else if(nowPiece != color){
-            print("撞牆\n");
-            break;
-        } 
-    }
-    // return
-    target->link = link;
-    target->jump = (jump >= 4) ? 0 : jump;
-}
-
-int checkVector(Position pos, Pieces *allPieces, int m){
+// -allPieces[m] = {color(0,1), v(0~7), pos(x,y), link, jump}
+//      0  3  5
+// v:   1  P  6
+//      2  4  7
+int checkLink(Position pos, Pieces *allPieces, int m){
     char color = chessBoard[pos.x][pos.y];
-
     for(int i=0; i<8; i++){
         int link; // 連線數
         int jump; // 計數是否爲 活x跳
@@ -141,41 +77,41 @@ int checkVector(Position pos, Pieces *allPieces, int m){
         int x = pos.x + v.x;
         int y = pos.y + v.y;
         // 預防 out of range
-        if(x<0 || y<0 || x>BoardSize-1 || y>BoardSize-1){
-            // printf("%d %d out of range\n",x,y);
+        if(x < 0 || y < 0 || x > BoardSize-1 || y > BoardSize-1){
+            // printf("%02d %02d out of range\n",x,y);
             continue;
         }
 
-        if(chessBoard[x][y] == color){
+        // 連續
+        if(colorSame(chessBoard[x][y], color)){
             link = 2; // 連線數
             jump = 0; // 計數是否爲 活x跳
             f = 0;
         }
-        else if(chessBoard[x+v.x][y+v.y] == color && chessBoard[x][y] == '.'){
+        // 跳一格
+        else if(colorSame(chessBoard[x+v.x][y+v.y], color) && colorSame(chessBoard[x][y], '.')){
             link = 2; // 連線數
-            jump = 2; // 計數是否爲 活x跳
+            jump = 1; // 計數是否爲 活x跳
             f = 1;
             n = 1;
+            x += v.x;
+            y += v.y;
         }
+        // 空
         else{
             continue;
         }
-
-        // -target = {color(0,1), v(0~7), pos(x,y), link, jump}
-        //      0  3  5
-        // v:   1  P  6
-        //      2  4  7
         
         // 當前位置對角判斷 是否卡中間
-        // TODO: 這裏有問題 沒作用
+        // // FIX: 這裏有問題 沒作用
         Position diagonallyV = vL[7-i];
-        int xv = diagonallyV.x, yv = diagonallyV.y; 
+        int xv = diagonallyV.x, yv = diagonallyV.y;
         if(colorSame(chessBoard[pos.x+xv][pos.y+yv], color)||colorSame(chessBoard[pos.x+xv*2][pos.y+yv*2], color)){
-            // printf("%d %d mid next!\n",pos.x+1,pos.y+1); // 測試
+            // printf("%02d %02d mid next!\n",pos.x+1,pos.y+1); // 測試
             continue;
         }
 
-        // TODO: 連續數有問題 
+        // // Fix: 連續數有問題 
         for(int j=0; j<3-n; j++){
             // 更新位置
             x += v.x;
@@ -194,18 +130,18 @@ int checkVector(Position pos, Pieces *allPieces, int m){
                 link++;
             }
             // 判斷是否活跳
-            else if(nowPiece == '.' && jump == 0){
+            else if(colorSame(nowPiece, '.') && jump == 0){
                 print("jump\n");
-                jump = i+1;
+                jump = i+2;
                 f = 1;
             }
-            else if(nowPiece == '.' && jump !=0 && f == 1){
+            else if(colorSame(nowPiece, '.') && jump != 0 && f == 1 && n == 0){
                 print("連空\n");
                 jump = 0;
                 break;
             }
             // 不同棋子顏色
-            else if(nowPiece != color){
+            else if(!colorSame(nowPiece, color)){
                 print("撞牆\n");
                 break;
             } 

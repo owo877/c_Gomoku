@@ -1,5 +1,3 @@
-// 宣告檔案
-// typedef enum{};
 // 儲存座標
 typedef struct {
     int x;
@@ -33,11 +31,9 @@ extern Position vL[8];
 // 顯示棋盤
 void show();
 // 顏色是否相等
-int colorSame(char pieces, int color);
-// 判斷連線狀態
-void linkCheck(Pieces *target);
+int colorSame(char pieces, char color);
 // 確認方向
-int checkVector(Position pos, Pieces *allPieces, int m);
+int checkLink(Position pos, Pieces *allPieces, int m);
 // 回傳
 void returnAns(Position pos);
 // show chess
