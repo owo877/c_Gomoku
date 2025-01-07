@@ -49,6 +49,12 @@ void show(){
             else if(chessBoard[i][j] == '1'){
                 printf("\x1b[40m");
             }
+            else if(chessBoard[i][j] == '2'){
+                printf("\x1b[44m");
+            }
+            else if(chessBoard[i][j] == '3'){
+                printf("\x1b[41m");
+            }
             printf("%c", chessBoard[i][j]);
             printf("\x1b[0m ");
         }

@@ -62,6 +62,7 @@ int main(int argc, char *argv[]){
         if(jump != 0){
             int x = pos.x + vL[v].x * jump;
             int y = pos.y + vL[v].y * jump;
+            chessBoard[x][y] = '2';
             printf("可堵/下位置（%d 活跳）| %02d %02d\n", link, x+1, y+1);
         }
         else{
@@ -69,6 +70,7 @@ int main(int argc, char *argv[]){
             int y = pos.y + vL[v].y * link;
             // 確保是空的位子
             if(chessBoard[x][y] == '.'){
+                chessBoard[x][y] = '3';
                 printf("可堵/下位置（%d 連線）| %02d %02d\n", link, x+1, y+1);
             }
             else{
