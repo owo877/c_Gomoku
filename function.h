@@ -33,7 +33,7 @@ void show();
 // 顏色是否相等
 int colorSame(char pieces, char color);
 // 確認方向
-int checkLink(Position pos, Pieces *allPieces, int m);
+int checkLink(Position pos, Pieces *linkPieces, int m);
 // 回傳
 void returnAns(Position pos);
 // show chess

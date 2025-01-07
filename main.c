@@ -15,8 +15,8 @@ int main(int argc, char *argv[]){
     KeyValue *anyPiecesL = malloc(sizeof(KeyValue) * BoardSize * BoardSize);
 
     // -存是我有連線的棋子
-    // Pieces allPieces[BoardSize*BoardSize];
-    Pieces *allPieces = malloc(sizeof(Pieces) * BoardSize * BoardSize);
+    // Pieces linkPieces[BoardSize*BoardSize];
+    Pieces *linkPieces = malloc(sizeof(Pieces) * BoardSize * BoardSize);
 
     // -argv[1] = "Black" or "White"
     // -當前棋色（黒子 1）（白子 0）
@@ -44,22 +44,22 @@ int main(int argc, char *argv[]){
     for(i=0; i<n; i++){
         Position pos = anyPiecesL[i].pos; // 當前旗子位置座標
         // 確認周圍旗子
-        m = checkLink(pos, allPieces, m);
+        m = checkLink(pos, linkPieces, m);
     }
 
     // printf("有多少棋子連線：%d\n", m);
     for(i=0; i<m; i++){
         // 確認用
-        showChess(allPieces[i].pos, allPieces[i]);
+        showChess(linkPieces[i].pos, linkPieces[i]);
         
         // 判斷所需參數
-        Position pos = allPieces[i].pos;
-        int link = allPieces[i].link;
-        int jump = allPieces[i].jump; // 位置
-        int v = allPieces[i].v;
+        Position pos = linkPieces[i].pos;
+        int link = linkPieces[i].link;
+        int jump = linkPieces[i].jump; // 位置
+        int v = linkPieces[i].v;
 
         // 可下位置判斷
-        if(allPieces[i].jump != 0){
+        if(jump != 0){
             int x = pos.x + vL[v].x * jump;
             int y = pos.y + vL[v].y * jump;
             printf("可堵/下位置（%d 活跳）| %02d %02d\n", link, x+1, y+1);
@@ -82,5 +82,5 @@ int main(int argc, char *argv[]){
     // 列印棋盤
     show();
     free(anyPiecesL);
-    free(allPieces);
+    free(linkPieces);
 }

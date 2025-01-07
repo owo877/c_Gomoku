@@ -64,7 +64,7 @@ void show(){
 //      0  3  5
 // v:   1  P  6
 //      2  4  7
-int checkLink(Position pos, Pieces *allPieces, int m){
+int checkLink(Position pos, Pieces *linkPieces, int m){
     char color = chessBoard[pos.x][pos.y];
     for(int i=0; i<8; i++){
         int link; // 連線數
@@ -147,11 +147,11 @@ int checkLink(Position pos, Pieces *allPieces, int m){
             } 
         }
         // return
-        allPieces[m].color = color-'0';
-        allPieces[m].v = i;
-        allPieces[m].pos = pos;
-        allPieces[m].link = link;
-        allPieces[m].jump = (jump >= 4) ? 0 : jump;
+        linkPieces[m].color = color-'0';
+        linkPieces[m].v = i;
+        linkPieces[m].pos = pos;
+        linkPieces[m].link = link;
+        linkPieces[m].jump = (jump >= 4) ? 0 : jump;
         m++;
     }
     return m;
