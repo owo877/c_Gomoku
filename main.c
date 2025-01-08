@@ -60,22 +60,33 @@ int main(int argc, char *argv[]){
 
         // 可下位置判斷
         if(jump != 0){
-            int x = pos.x + vL[v].x * jump;
-            int y = pos.y + vL[v].y * jump;
-            chessBoard[x][y] = '2';
-            
             showChess(linkPieces[i].pos, linkPieces[i]);
-            printf("可堵/下位置（%d 活跳）| %02d %02d\n", link, x+1, y+1);
+            int x = pos.x + vL[v].x * (link + 1);
+            int y = pos.y + vL[v].y * (link + 1);
+            if(link == 3 && chessBoard[x][y] == '.'){
+                chessBoard[x][y] = '4';
+                printf("可堵/下位置（跳/死活 3）| %02d %02d\n", x+1, y+1);
+            }
+            else{
+                int x = pos.x + vL[v].x * jump;
+                int y = pos.y + vL[v].y * jump;
+                chessBoard[x][y] = '2';
+                printf("可堵/下位置（跳活/死 %d）| %02d %02d\n", link, x+1, y+1);
+            }
         }
         else{
             int x = pos.x + vL[v].x * link;
             int y = pos.y + vL[v].y * link;
             // 確保是空的位子
             if(chessBoard[x][y] == '.'){
-                chessBoard[x][y] = '3';
-                
                 showChess(linkPieces[i].pos, linkPieces[i]);
-                printf("可堵/下位置（%d 連線）| %02d %02d\n", link, x+1, y+1);
+                if(link==2){
+                    chessBoard[x][y] = '5';
+                }
+                else{
+                    chessBoard[x][y] = '3';
+                }
+                printf("可堵/下位置（活 %d）| %02d %02d\n", link, x+1, y+1);
             }
             else{
                 // printf("%02d %02d | 有牆\n",x+1,y+1); 

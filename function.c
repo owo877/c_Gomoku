@@ -38,11 +38,13 @@ void showChess(Position pos, Pieces target){
 // 顯示當前棋盤
 void show(){
     int i, j;
+    printf("\n0白子 1黑子 2跳棋 3（3、4連） 4活跳 5（2連）\n");
     // printf("\n   A B C D E F G H I J K L M N O P Q R S | Y\n");
     printf("\n   1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 Y\n");
     for (i=0; i<BoardSize; i++){
         printf("%2d ", i+1);
         for(j=0; j<BoardSize; j++){
+            // 上色
             if(chessBoard[i][j] == '0'){
                 printf("\x1b[47m\x1b[30m");
             }
@@ -55,6 +57,13 @@ void show(){
             else if(chessBoard[i][j] == '3'){
                 printf("\x1b[41m");
             }
+            else if(chessBoard[i][j] == '4'){
+                printf("\x1b[42m");
+            }
+            else if(chessBoard[i][j] == '5'){
+                printf("\x1b[45m");
+            }
+            
             printf("%c", chessBoard[i][j]);
             printf("\x1b[0m ");
         }
