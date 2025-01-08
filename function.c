@@ -112,11 +112,12 @@ int checkLink(Position pos, Pieces *linkPieces, int m){
         // // FIX: 這裏有問題 沒作用
         Position diagonallyV = vL[7-i];
         int xv = diagonallyV.x, yv = diagonallyV.y;
-        if(colorSame(chessBoard[pos.x+xv][pos.y+yv], color)||colorSame(chessBoard[pos.x+xv*2][pos.y+yv*2], color)){
+        if(colorSame(chessBoard[pos.x+xv][pos.y+yv], color)||
+        (colorSame(chessBoard[pos.x+xv*2][pos.y+yv*2], color)&&colorSame(chessBoard[pos.x+xv][pos.y+yv], '.'))){
             // printf("%02d %02d mid next!\n",pos.x+1,pos.y+1); // 測試
             continue;
         }
-
+        // printf("%02d %02d,%d\n",pos.x+1,pos.y+1,i);
         // // Fix: 連續數有問題 
         for(int j=0; j<3-n; j++){
             // 更新位置
@@ -138,10 +139,10 @@ int checkLink(Position pos, Pieces *linkPieces, int m){
             // 判斷是否活跳
             else if(colorSame(nowPiece, '.') && jump == 0){
                 print("jump\n");
-                jump = i+2;
+                jump = i+1;
                 f = 1;
             }
-            else if(colorSame(nowPiece, '.') && jump != 0 && f == 1 && n == 0){
+            else if(!colorSame(nowPiece, color) && jump != 0 && f == 1 && n == 0){
                 print("連空\n");
                 jump = 0;
                 break;

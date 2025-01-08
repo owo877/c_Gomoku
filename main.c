@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
     // printf("有多少棋子連線：%d\n", m);
     for(i=0; i<m; i++){
         // 確認用
-        showChess(linkPieces[i].pos, linkPieces[i]);
+        // showChess(linkPieces[i].pos, linkPieces[i]);
         
         // 判斷所需參數
         Position pos = linkPieces[i].pos;
@@ -63,6 +63,8 @@ int main(int argc, char *argv[]){
             int x = pos.x + vL[v].x * jump;
             int y = pos.y + vL[v].y * jump;
             chessBoard[x][y] = '2';
+            
+            showChess(linkPieces[i].pos, linkPieces[i]);
             printf("可堵/下位置（%d 活跳）| %02d %02d\n", link, x+1, y+1);
         }
         else{
@@ -71,14 +73,16 @@ int main(int argc, char *argv[]){
             // 確保是空的位子
             if(chessBoard[x][y] == '.'){
                 chessBoard[x][y] = '3';
+                
+                showChess(linkPieces[i].pos, linkPieces[i]);
                 printf("可堵/下位置（%d 連線）| %02d %02d\n", link, x+1, y+1);
             }
             else{
-                printf("%02d %02d | 有牆\n",x+1,y+1);  
+                // printf("%02d %02d | 有牆\n",x+1,y+1); 
             }
         }
 
-    printf("\n");
+    // printf("\n");
     }
     
     // 列印棋盤
@@ -86,3 +90,23 @@ int main(int argc, char *argv[]){
     free(anyPiecesL);
     free(linkPieces);
 }
+
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . 1 . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . .  
+// echo . . . . . . . . . . . . . . . . . . . 
